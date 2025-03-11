@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仓库管理系统 - 主页面</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- 引入 Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header class="header">
+        <h1>仓库管理系统</h1>
+    </header>
+    <div class="main-container">
+        <div class="sidebar">
+            <a href="{{ url_for('index') }}">主页</a>
+            <a href="{{ url_for('add_inventory') }}">添加新库存</a>
+            <a href="{{ url_for('display_records') }}">显示出入库记录</a>
+            <a href="{{ url_for('remove_inventory') }}">出库</a>
+            <a href="{{ url_for('import_inventory') }}">导入库存</a>
+            <a href="{{ url_for('export_inventory') }}">导出库存</a>
+            <a href="{{ url_for('remaining_inventory') }}">剩余库存</a>
+        </div>
+        <div class="content">
+            <h1>库存数据可视化</h1>
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="totalInventoryChart"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="inOutInventoryChart"></canvas>
+                </div>
+            </div>
+            <script>
+                // 总库存数据图表
+                const totalInventoryChartCtx = document.getElementById('totalInventoryChart').getContext('2d');
+                const totalInventoryChart = new Chart(totalInventoryChartCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['总库存'],
+                        datasets: [{
+                            label: '总库存数量',
+                            data: [{{ total_inventory }}],
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+
+                // 出入库数据图表
+                const inOutInventoryChartCtx = document.getElementById('inOutInventoryChart').getContext('2d');
+                const inOutInventoryChart = new Chart(inOutInventoryChartCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['入库', '出库'],
+                        datasets: [{
+                            label: '数量',
+                            data: [{{ inbound_inventory }}, {{ outbound_inventory }}],
+                            backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(255, 99, 132, 0.2)'],
+                            borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>

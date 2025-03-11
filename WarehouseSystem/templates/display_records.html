@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>出入库记录</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- 引入 SweetAlert2 库 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+    <script>
+        /*function changePerPage(value) {
+        // 获取当前的 URL 参数
+        const urlParams = new URLSearchParams(window.location.search);
+        // 更新 per_page 参数
+        urlParams.set('per_page', value);
+        // 保持其他参数不变，如 keyword 和 sort
+        const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+        window.location.href = newUrl;
+        }*/
+
+
+        function changePerPage(value) {
+            const url = new URL(window.location.href);
+            url.searchParams.set('per_page', value);
+            url.searchParams.set('page', 1); // 切换每页数量时跳转回第一页
+            window.location.href = url.toString();
+        }
+        function selectAll(checkbox) {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach((cb) => {
+                if (cb!== checkbox) {
+                    cb.checked = checkbox.checked;
+                }
+            });
+        }
+
+        function confirmBatchDelete() {
+            const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked:not(#selectAllCheckbox)');
+            if (checkedBoxes.length === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: '提示',
+                    text: '请选择要删除的记录！'
+                });
+                return false;
+            }
+            const selectedIndices = [];
+            checkedBoxes.forEach((box) => {
+                selectedIndices.push(box.value);
+            });
+            console.log('Selected indices:', selectedIndices);
+            Swal.fire({
+                title: '确认删除',
+                text: '确定要删除所选的记录吗？',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: '删除',
+                cancelButtonText: '取消'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const form = document.querySelector('form[action="{{ url_for('batch_delete_records') }}"]');
+                    selectedIndices.forEach((index) => {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = 'selected_records';
+                        input.value = index;
+                        form.appendChild(input);
+                    });
+                    form.submit();
+                }
+            });
+            return false;
+        }
+
+        function confirmSingleDelete(index) {
+            Swal.fire({
+                title: '确认删除',
+                text: '确定要删除这条记录吗？',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: '删除',
+                cancelButtonText: '取消'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{{ url_for('delete_inventory', index=0) }}".replace('0', index);
+                }
+            });
+        }
+
+        function showBatchEditForm() {
+            const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked:not(#selectAllCheckbox)');
+            if (checkedBoxes.length === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: '提示',
+                    text: '请选择要修改的记录！'
+                });
+                return;
+            }
+            const selectedIndices = [];
+            checkedBoxes.forEach((box) => {
+                selectedIndices.push(box.value);
+            });
+            Swal.fire({
+                title: '批量修改记录',
+                html: `
+                    <form id="batchEditForm">
+                        <div class="input-group">
+                            <label for="newStyleNumber">款号:</label>
+                            <input type="text" id="newStyleNumber" name="newStyleNumber">
+                            <small>留空则不修改</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="newColor">颜色:</label>
+                            <input type="text" id="newColor" name="newColor">
+                            <small>留空则不修改</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="newSize">尺码:</label>
+                            <input type="text" id="newSize" name="newSize">
+                            <small>留空则不修改</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="newQuantity">数量:</label>
+                            <input type="number" id="newQuantity" name="newQuantity">
+                            <small>留空则不修改</small>
+                        </div>
+                        <input type="hidden" id="selectedIndices" name="selectedIndices" value="${selectedIndices.join(',')}">
+                    </form>
+                `,
+                showCancelButton: true,
+                confirmButtonText: '保存修改',
+                cancelButtonText: '取消',
+                preConfirm: () => {
+                    const form = document.getElementById('batchEditForm');
+                    const formData = new FormData(form);
+                    return Object.fromEntries(formData.entries());
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const data = result.value;
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', '{{ url_for('batch_edit_records') }}', true);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '成功',
+                                text: '记录修改成功！'
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        }
+                    };
+                    xhr.send(JSON.stringify(data));
+                }
+            });
+        }
+
+        function searchRecords() {
+            const keyword = document.getElementById('searchInput').value;
+            window.location.href = `{{ url_for('display_records') }}?keyword=${keyword}`;
+        }
+    </script>
+</head>
+
+<body>
+    <header class="header">
+        <h1>仓库管理系统</h1>
+    </header>
+    <div class="main-container">
+            <div class="sidebar">
+                <a href="{{ url_for('index') }}">返回主页</a>
+                <a href="{{ url_for('add_inventory') }}">添加新库存</a>
+                <a href="{{ url_for('display_records') }}">显示出入库记录</a>
+                <a href="{{ url_for('remove_inventory') }}">出库</a>
+                <a href="{{ url_for('import_inventory') }}">导入库存</a>
+                <a href="{{ url_for('export_inventory') }}">导出库存</a>
+                <a href="{{ url_for('remaining_inventory') }}">剩余库存</a>
+            </div>
+            <div class="content">
+                <h1>出入库记录</h1>
+                <div class="search-container">
+                <input type="text" id="searchInput" placeholder="输入款号模糊搜索" class="search-input">
+                <button onclick="searchRecords()" class="search-button">搜索</button>
+            </div>
+            <div class="batch-button-container">
+                <input type="checkbox" id="selectAllCheckbox" onclick="selectAll(this)"> 全选
+                <button type="button" onclick="confirmBatchDelete()" class="action-button delete-button">批量删除</button>
+                <button type="button" onclick="showBatchEditForm()" class="action-button edit-button">批量修改</button>
+            </div>
+            <form action="{{ url_for('batch_delete_records') }}" method="post">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th><a href="{{ url_for('display_records', sort='款号', keyword=keyword, page=1) }}">款号</a></th>
+                            <th><a href="{{ url_for('display_records', sort='颜色', keyword=keyword, page=1) }}">颜色</a></th>
+                            <th><a href="{{ url_for('display_records', sort='尺码', keyword=keyword, page=1) }}">尺码</a></th>
+                            <th><a href="{{ url_for('display_records', sort='入库时间', keyword=keyword, page=1) }}">入库时间</a></th>
+                            <th><a href="{{ url_for('display_records', sort='库存数量', keyword=keyword, page=1) }}">库存数量</a></th>
+                            <th><a href="{{ url_for('display_records', sort='出入库类型', keyword=keyword, page=1) }}">出入库类型</a></th>
+                            <th><a href="{{ url_for('display_records', sort='操作时间', keyword=keyword, page=1) }}">操作时间</a></th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in records %}
+                        <tr>
+                            <td><input type="checkbox" name="selected_records" value="{{ loop.index0 + (page - 1) * 10 }}"></td>
+                            <td>{{ record['款号'] }}</td>
+                            <td>{{ record['颜色'] }}</td>
+                            <td>{{ record['尺码'] }}</td>
+                            <td>{{ record['入库时间'] }}</td>
+                            <td>{{ record['库存数量'] }}</td>
+                            <td>{{ record['出入库类型'] }}</td>
+                            <td>{{ record['操作时间'] }}</td>
+                            <td>
+                                <a href="{{ url_for('edit_inventory', index=loop.index0 + (page - 1) * 10) }}"
+                                   class="action-button edit-button">修改</a>
+                                <a href="#" onclick="confirmSingleDelete({{ loop.index0 + (page - 1) * 10 }}); return false;"
+                                   class="action-button delete-button">删除</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </form>
+            <!-- 分页导航 -->
+            <div class="pagination">
+                {% if page > 1 %}
+                <a href="{{ url_for('display_records', keyword=keyword, sort=sort, page=page - 1, per_page=per_page) }}" class="pagination-button">上一页</a>
+                {% endif %}
+                <!-- 新增每页显示数量的选择框 -->
+                <select id="per-page-select" onchange="changePerPage(this.value)">
+                    <option value="10" {% if per_page == 10 %}selected{% endif %}>10 条/页</option>
+                    <option value="20" {% if per_page == 20 %}selected{% endif %}>20 条/页</option>
+                    <option value="50" {% if per_page == 50 %}selected{% endif %}>50 条/页</option>
+                    <option value="100" {% if per_page == 100 %}selected{% endif %}>100 条/页</option>
+                </select>
+                {% if page < total_pages %}
+                <a href="{{ url_for('display_records', keyword=keyword, sort=sort, page=page + 1, per_page=per_page) }}" class="pagination-button">下一页</a>
+                {% endif %}
+            </div>
+
+
+        </div>
+    </div>
+</body>
+
+</html>

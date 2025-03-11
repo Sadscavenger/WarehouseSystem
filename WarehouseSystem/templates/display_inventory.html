@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>显示库存</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <h1>仓库管理系统</h1>
+    </header>
+    <div class="main-container">
+        <div class="sidebar">
+            <a href="{{ url_for('index') }}">主页</a>
+            <a href="{{ url_for('add_inventory') }}">添加新库存</a>
+            <a href="{{ url_for('display_inventory') }}">显示库存</a>
+            <a href="{{ url_for('remove_inventory') }}">出库</a>
+            <a href="{{ url_for('import_inventory') }}">导入库存</a>
+            <a href="{{ url_for('export_inventory') }}">导出库存</a>
+            <a href="{{ url_for('remaining_inventory') }}">剩余库存</a>
+        </div>
+        <div class="content">
+            <h1>显示库存</h1>
+            <div class="inventory-table-container">
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>款号</th>
+                            <th>颜色</th>
+                            <th>尺码</th>
+                            <th>入库时间</th>
+                            <th>库存数量</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for index, item in enumerate(inventory) %}
+                        <tr>
+                            <td>{{ item['款号'] }}</td>
+                            <td>{{ item['颜色'] }}</td>
+                            <td>{{ item['尺码'] }}</td>
+                            <td>{{ item['入库时间'] }}</td>
+                            <td>{{ item['库存数量'] }}</td>
+                            <td>
+                                <a href="{{ url_for('edit_inventory', index=index) }}" class="action-button edit-button">修改</a>
+                                <a href="{{ url_for('delete_inventory', index=index) }}" class="action-button delete-button" onclick="return confirm('确定要删除这条记录吗？')">删除</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

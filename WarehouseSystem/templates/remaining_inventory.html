@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>剩余库存</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <h1>仓库管理系统</h1>
+    </header>
+    <div class="main-container">
+        <div class="sidebar">
+            <a href="{{ url_for('index') }}">返回主页</a>
+            <a href="{{ url_for('add_inventory') }}">添加新库存</a>
+            <a href="{{ url_for('display_records') }}">显示出入库记录</a>
+            <a href="{{ url_for('remove_inventory') }}">出库</a>
+            <a href="{{ url_for('import_inventory') }}">导入库存</a>
+            <a href="{{ url_for('export_inventory') }}">导出库存</a>
+            <a href="{{ url_for('remaining_inventory') }}">剩余库存</a>
+        </div>
+        <div class="content">
+            <h1>剩余库存</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>款号</th>
+                        <th>颜色</th>
+                        <th>S</th>
+                        <th>M</th>
+                        <th>L</th>
+                        <th>XL</th>
+                        <th>XXL</th>
+                        <th>预警</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in inventory %}
+                    <tr>
+                        <td>{{ item['款号'] }}</td>
+                        <td>{{ item['颜色'] }}</td>
+                        <td>{{ item.get('S', 0) }}</td>
+                        <td>{{ item.get('M', 0) }}</td>
+                        <td>{{ item.get('L', 0) }}</td>
+                        <td>{{ item.get('XL', 0) }}</td>
+                        <td>{{ item.get('XXL', 0) }}</td>
+                        <td>
+                            {% if item['预警'] %}
+                            <span style="color: red;">库存不足</span>
+                            {% else %}
+                            正常
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

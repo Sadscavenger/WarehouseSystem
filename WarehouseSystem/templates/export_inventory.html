@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>导出库存</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <h1>仓库管理系统</h1>
+    </header>
+    <div class="main-container">
+        <div class="sidebar">
+            <a href="{{ url_for('index') }}">返回主页</a>
+            <a href="{{ url_for('add_inventory') }}">添加新库存</a>
+            <a href="{{ url_for('display_records') }}">显示出入库记录</a>
+            <a href="{{ url_for('remove_inventory') }}">出库</a>
+            <a href="{{ url_for('import_inventory') }}">导入库存</a>
+            <a href="{{ url_for('export_inventory') }}">导出库存</a>
+            <a href="{{ url_for('remaining_inventory') }}">剩余库存</a>
+        </div>
+        <div class="content">
+            <h1>导出库存</h1>
+            <p>您可以点击下面的按钮下载包含所有出入库记录的 Excel 文件。</p>
+            <a href="{{ url_for('download_inventory') }}" class="download-button">下载库存记录</a>
+        </div>
+    </div>
+</body>
+</html>

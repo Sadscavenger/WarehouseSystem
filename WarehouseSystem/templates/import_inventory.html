@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>导入库存</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <h1>仓库管理系统</h1>
+    </header>
+    <div class="main-container">
+        <div class="sidebar">
+            <a href="{{ url_for('index') }}">返回主页</a>
+            <a href="{{ url_for('add_inventory') }}">添加新库存</a>
+            <a href="{{ url_for('display_records') }}">显示出入库记录</a>
+            <a href="{{ url_for('remove_inventory') }}">出库</a>
+            <a href="{{ url_for('import_inventory') }}">导入库存</a>
+            <a href="{{ url_for('export_inventory') }}">导出库存</a>
+            <a href="{{ url_for('remaining_inventory') }}">剩余库存</a>
+        </div>
+        <div class="content">
+            <h1>导入库存</h1>
+            <div class="import-info">
+                <p>您可以通过上传一个 Excel 文件来批量导入库存数据。请确保文件格式为 `.xlsx`，并且文件包含以下必要字段：</p>
+                <ul>
+                    <li>款号</li>
+                    <li>颜色</li>
+                    <li>尺码</li>
+                    <li>入库时间（格式：YYYY - MM - DD HH:MM:SS）</li>
+                    <li>库存数量</li>
+                    <li>出入库类型（“入库”或“出库”）</li>
+                    <li>操作时间（格式：YYYY - MM - DD HH:MM:SS）</li>
+                </ul>
+                <p>导入过程中，系统会自动将新数据追加到现有的出入库记录中。若文件格式不符合要求，系统将给出错误提示。请确保上传的文件大小不超过 5MB。</p>
+            </div>
+            <form method="post" enctype="multipart/form-data" class="form-container">
+                <div class="input-group">
+                    <label for="file">选择要导入的 Excel 文件:</label>
+                    <input type="file" id="file" name="file" accept=".xlsx" required>
+                    <small class="file-info">支持 `.xlsx` 格式，文件大小建议不超过 5MB</small>
+                </div>
+                <button type="submit" class="upload-button">开始导入</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

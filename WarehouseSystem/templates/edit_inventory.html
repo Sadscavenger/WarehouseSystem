@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修改库存信息</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <h1>仓库管理系统</h1>
+    </header>
+    <div class="main-container">
+        <div class="sidebar">
+            <a href="{{ url_for('index') }}">返回主页</a>
+            <a href="{{ url_for('add_inventory') }}">添加新库存</a>
+            <a href="{{ url_for('display_records') }}">显示出入库记录</a>
+            <a href="{{ url_for('remove_inventory') }}">出库</a>
+            <a href="{{ url_for('import_inventory') }}">导入库存</a>
+            <a href="{{ url_for('export_inventory') }}">导出库存</a>
+            <a href="{{ url_for('remaining_inventory') }}">剩余库存</a>
+        </div>
+        <div class="content">
+            <h1>修改库存信息</h1>
+            <form method="post" class="form-container">
+                <div class="input-group">
+                    <label for="style_number">款号:</label>
+                    <input type="text" id="style_number" name="style_number" value="{{ item['款号'] }}" required>
+                    <small>请输入商品的款号，例如：ABC123</small>
+                </div>
+                <div class="input-group">
+                    <label for="color">颜色:</label>
+                    <input type="text" id="color" name="color" value="{{ item['颜色'] }}" required>
+                    <small>请输入商品的颜色，例如：红色</small>
+                </div>
+                <div class="input-group">
+                    <label for="size">尺码:</label>
+                    <input type="text" id="size" name="size" value="{{ item['尺码'] }}" required>
+                    <small>请输入商品的尺码，例如：S、M、L</small>
+                </div>
+                <div class="input-group">
+                    <label for="quantity">数量:</label>
+                    <input type="number" id="quantity" name="quantity" value="{{ item['库存数量'] }}" required min="1">
+                    <small>请输入商品的库存数量，必须为正整数</small>
+                </div>
+                <input type="submit" value="保存修改" class="submit-button">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

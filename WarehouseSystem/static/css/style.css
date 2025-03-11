@@ -1,0 +1,374 @@
+/* 全局样式 */
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f9fafb; /* 更柔和的背景色 */
+    color: #333;
+}
+
+/* 表头样式 */
+.header {
+    background-color: #1a202c; /* 更深的表头背景色 */
+    color: white;
+    text-align: center;
+    padding: 30px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 2.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* 主容器样式，用于包裹侧边栏和内容区域 */
+.main-container {
+    display: flex;
+    flex: 1;
+}
+
+/* 侧边栏样式 */
+.sidebar {
+    width: 250px;
+    background-color: #2d3748; /* 更深的侧边栏背景色 */
+    color: white;
+    padding-top: 40px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
+    position: fixed;
+    height: 100%;
+    overflow-y: auto;
+    transition: width 0.3s ease;
+}
+
+.sidebar a {
+    display: block;
+    color: #a0aec0; /* 更柔和的侧边栏链接颜色 */
+    padding: 20px 25px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+    font-size: 1.1rem;
+}
+
+.sidebar a:hover {
+    background-color: #4a5568; /* 侧边栏链接悬停时的背景色 */
+    color: white;
+    border-left: 4px solid #4299e1; /* 更鲜明的悬停边框颜色 */
+}
+
+/* 内容区域样式 */
+.content {
+    flex: 1;
+    padding: 50px;
+    background-color: white;
+    margin: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    margin-left: 280px;
+    transition: box-shadow 0.3s ease;
+}
+
+.content h1 {
+    color: #2d3748; /* 更符合整体风格的标题颜色 */
+    margin-bottom: 40px;
+    font-size: 2.2rem;
+    border-bottom: 2px solid #e2e8f0; /* 更柔和的标题下边框颜色 */
+    padding-bottom: 15px;
+}
+
+/* 表单样式 */
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+}
+
+.input-group {
+    margin-bottom: 25px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #4a5568; /* 更符合整体风格的标签颜色 */
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #e2e8f0; /* 更柔和的输入框边框颜色 */
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    font-size: 1rem;
+}
+
+.input-group input:focus {
+    border-color: #4299e1; /* 更鲜明的输入框聚焦边框颜色 */
+    outline: none;
+}
+
+.input-group small {
+    display: block;
+    margin-top: 8px;
+    color: #718096; /* 更柔和的提示文字颜色 */
+    font-size: 0.9em;
+}
+
+.submit-button {
+    background-color: #4299e1; /* 更鲜明的按钮颜色 */
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.submit-button:hover {
+    background-color: #3182ce; /* 按钮悬停时的颜色 */
+}
+
+/* 表格样式 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+table th,
+table td {
+    padding: 18px 22px;
+    border-bottom: 1px solid #e2e8f0; /* 更柔和的表格边框颜色 */
+    text-align: left;
+}
+
+table th {
+    background-color: #4299e1; /* 更鲜明的表头背景色 */
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+table tr:nth-child(even) {
+    background-color: #f7fafc; /* 更柔和的偶数行背景色 */
+}
+
+table tr:hover {
+    background-color: #edf2f7; /* 更柔和的行悬停背景色 */
+    transition: background-color 0.3s ease;
+}
+
+/* 预警提示样式 */
+span[style="color: red;"] {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* 主页图表容器样式 */
+.chart-container {
+    display: flex;
+    gap: 30px;
+}
+
+.chart-wrapper {
+    flex: 1;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    transition: box-shadow 0.3s ease;
+}
+
+/* 导出库存页面样式 */
+.download-button {
+    display: inline-block;
+    background-color: #38a169; /* 更鲜明的下载按钮颜色 */
+    color: white;
+    padding: 18px 35px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    margin-top: 30px;
+}
+
+.download-button:hover {
+    background-color: #2f855a; /* 下载按钮悬停时的颜色 */
+}
+
+.export-info {
+    margin-bottom: 40px;
+    line-height: 1.7;
+}
+
+/* 导入库存页面样式 */
+.upload-button {
+    display: inline-block;
+    background-color: #4299e1; /* 更鲜明的上传按钮颜色 */
+    color: white;
+    padding: 18px 35px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    margin-top: 30px;
+}
+
+.upload-button:hover {
+    background-color: #3182ce; /* 上传按钮悬停时的颜色 */
+}
+
+.import-info {
+    margin-bottom: 40px;
+    line-height: 1.7;
+}
+
+.file-info {
+    color: #718096; /* 更柔和的文件信息颜色 */
+    font-size: 0.9rem;
+    margin-top: 15px;
+}
+
+/* 操作按钮样式 */
+.action-button {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-right: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.edit-button {
+    background-color: #ed8936; /* 更鲜明的编辑按钮颜色 */
+    color: white;
+}
+
+.edit-button:hover {
+    background-color: #dd6b20; /* 编辑按钮悬停时的颜色 */
+}
+
+.delete-button {
+    background-color: #e53e3e; /* 更鲜明的删除按钮颜色 */
+    color: white;
+}
+
+.delete-button:hover {
+    background-color: #c53030; /* 删除按钮悬停时的颜色 */
+}
+
+/* 批量操作按钮容器样式 */
+.batch-button-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.batch-button-container input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.batch-button-container button {
+    margin-left: 15px;
+}
+/* 搜索容器样式 */
+.search-container {
+    display: flex;
+    align-items: center; /* 垂直对齐 */
+    margin-bottom: 20px;
+}
+
+/* 搜索输入框样式 */
+.search-input {
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px 0 0 8px; /* 左边圆角 */
+    box-sizing: border-box;
+    font-size: 1rem;
+    width: 300px;
+    transition: border-color 0.3s ease;
+    outline: none;
+    height: 40px; /* 统一高度 */
+}
+
+.search-input:focus {
+    border-color: #3498db;
+}
+
+/* 搜索按钮样式 */
+.search-button {
+    background-color: #3498db;
+    color: white;
+    padding: 0 20px; /* 调整内边距 */
+    border: none;
+    border-radius: 0 8px 8px 0; /* 右边圆角 */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+    height: 40px; /* 统一高度 */
+}
+
+.search-button:hover {
+    background-color: #2980b9;
+}
+
+/* 分页容器样式 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* 分页按钮样式 */
+.pagination-button {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: 1px solid #3498db;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #3498db;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.pagination-button:hover {
+    background-color: #3498db;
+    color: white;
+}
+
+/* 每页显示数量选择框样式 */
+#per-page-select {
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: 1px solid #3498db;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #333;
+}
