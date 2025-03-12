@@ -1,22 +1,20 @@
-/* 全局样式 */
 body {
-    font-family: 'Open Sans', sans-serif;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Poppins', 'Open Sans', sans-serif; /* 更现代字体组合 */
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: #f9fafb; /* 更柔和的背景色 */
-    color: #333;
+    background: linear-gradient(135deg, #f0f5f9 0%, #c9d6df 100%); /* 新的渐变背景 */
+    color: #333333; /* 新的文字颜色 */
 }
 
 /* 表头样式 */
 .header {
-    background-color: #1a202c; /* 更深的表头背景色 */
+    background: linear-gradient(135deg, #3a4750 0%, #222831 100%); /* 新的表头渐变背景 */
     color: white;
     text-align: center;
-    padding: 30px 0;
+    padding: 20px 0; /* 调整表头的上下内边距 */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
@@ -26,9 +24,37 @@ body {
 
 .header h1 {
     margin: 0;
-    font-size: 2.8rem;
+    font-size: 2.4rem; /* 调整标题字体大小 */
     letter-spacing: 2px;
     text-transform: uppercase;
+}
+
+/* 用户信息和退出登录按钮样式 */
+.user-info {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* 右对齐 */
+    padding: 0 20px; /* 左右内边距 */
+}
+
+.user-info span {
+    margin-right: 10px;
+    font-size: 0.9rem; /* 调整字体大小 */
+}
+
+.logout-btn {
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px; /* 调整按钮内边距 */
+    border: 1px solid white;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-size: 0.9rem; /* 调整字体大小 */
+}
+
+.logout-btn:hover {
+    background-color: white;
+    color: #1a202c;
 }
 
 /* 主容器样式，用于包裹侧边栏和内容区域 */
@@ -69,21 +95,21 @@ body {
 /* 内容区域样式 */
 .content {
     flex: 1;
-    padding: 50px;
+    padding: 30px;
     background-color: white;
-    margin: 30px;
+    margin: 20px;
     border-radius: 15px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    margin-left: 280px;
+    margin-left: 200px;
     transition: box-shadow 0.3s ease;
 }
 
 .content h1 {
     color: #2d3748; /* 更符合整体风格的标题颜色 */
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     font-size: 2.2rem;
     border-bottom: 2px solid #e2e8f0; /* 更柔和的标题下边框颜色 */
-    padding-bottom: 15px;
+    padding-bottom: 10px;
 }
 
 /* 表单样式 */
@@ -185,20 +211,7 @@ span[style="color: red;"] {
     font-size: 1.1rem;
 }
 
-/* 主页图表容器样式 */
-.chart-container {
-    display: flex;
-    gap: 30px;
-}
 
-.chart-wrapper {
-    flex: 1;
-    background-color: white;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
-    padding: 30px;
-    transition: box-shadow 0.3s ease;
-}
 
 /* 导出库存页面样式 */
 .download-button {
@@ -241,11 +254,6 @@ span[style="color: red;"] {
 
 .upload-button:hover {
     background-color: #3182ce; /* 上传按钮悬停时的颜色 */
-}
-
-.import-info {
-    margin-bottom: 40px;
-    line-height: 1.7;
 }
 
 .file-info {
@@ -297,15 +305,16 @@ span[style="color: red;"] {
 .batch-button-container button {
     margin-left: 15px;
 }
-/* 搜索容器样式 */
-.search-container {
+
+/* remaining_inventory 页面搜索框容器样式 */
+.remaining-inventory .search-container {
     display: flex;
     align-items: center; /* 垂直对齐 */
     margin-bottom: 20px;
 }
 
-/* 搜索输入框样式 */
-.search-input {
+/* remaining_inventory 页面搜索输入框样式 */
+.remaining-inventory .search-input {
     padding: 12px 20px;
     border: 1px solid #ccc;
     border-radius: 8px 0 0 8px; /* 左边圆角 */
@@ -317,12 +326,12 @@ span[style="color: red;"] {
     height: 40px; /* 统一高度 */
 }
 
-.search-input:focus {
+.remaining-inventory .search-input:focus {
     border-color: #3498db;
 }
 
-/* 搜索按钮样式 */
-.search-button {
+/* remaining_inventory 页面搜索按钮样式 */
+.remaining-inventory .search-button {
     background-color: #3498db;
     color: white;
     padding: 0 20px; /* 调整内边距 */
@@ -334,7 +343,7 @@ span[style="color: red;"] {
     height: 40px; /* 统一高度 */
 }
 
-.search-button:hover {
+.remaining-inventory .search-button:hover {
     background-color: #2980b9;
 }
 
@@ -371,4 +380,577 @@ span[style="color: red;"] {
     border-radius: 4px;
     font-size: 1rem;
     color: #333;
+}
+
+
+
+/* 表头样式 */
+.header {
+    background: linear-gradient(135deg, #2b6cb0 0%, #2c5282 100%); /* 渐变深蓝 */
+    color: white;
+    text-align: center;
+    padding: 1.8rem 0;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255,255,255,0.15); /* 增加层次感 */
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 2.8rem;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2); /* 文字投影 */
+}
+
+/* 侧边栏样式 */
+.sidebar {
+    width: 280px;
+    background: linear-gradient(195deg, #1a202c 0%, #2d3748 100%);
+    padding-top: 2rem;
+    box-shadow: 4px 0 30px rgba(0, 0, 0, 0.15);
+    position: fixed;
+    height: 100%;
+    overflow-y: auto;
+    border-right: 1px solid rgba(255,255,255,0.08); /* 分割线 */
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: #cbd5e0;
+    padding: 1.2rem 2rem;
+    margin: 0 0.8rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 500;
+    position: relative;
+}
+
+.sidebar a::before { /* 悬停装饰线 */
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 60%;
+    width: 3px;
+    background: #4299e1;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    background: rgba(74, 85, 104, 0.4);
+    color: white;
+    transform: translateX(8px);
+}
+
+.sidebar a:hover::before {
+    opacity: 1;
+    left: 0;
+}
+
+/* 内容区域 */
+.content {
+    background: rgba(255,255,255,0.95); /* 半透明白色 */
+    backdrop-filter: blur(12px); /* 毛玻璃效果 */
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+    margin: 2rem;
+    margin-left: 300px;
+    padding: 2rem;
+    border: 1px solid rgba(0,0,0,0.04);
+}
+
+/* 表单优化 */
+.form-container {
+    background: rgba(255,255,255,0.8);
+    border: 1px solid rgba(0,0,0,0.06);
+    backdrop-filter: blur(8px);
+}
+
+.input-group input {
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+    background: rgba(247, 250, 252, 0.6);
+}
+
+.input-group input:focus {
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+/* 按钮升级 */
+.submit-button {
+    background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.submit-button::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, 
+        transparent 25%,
+        rgba(255,255,255,0.1) 50%,
+        transparent 75%
+    );
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) rotate(45deg); }
+}
+
+/* 表格增强 */
+table {
+    border: 1px solid rgba(0,0,0,0.04);
+    background: rgba(255,255,255,0.6);
+}
+
+table th {
+    background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* 图表容器 */
+.chart-wrapper {
+    background: rgba(255,255,255,0.8);
+    border: 1px solid rgba(0,0,0,0.04);
+    backdrop-filter: blur(8px);
+}
+
+/* 分页样式升级 */
+.pagination-button {
+    border: 1px solid #cbd5e0;
+    transition: all 0.3s ease;
+}
+
+.pagination-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.15);
+}
+
+/* 新增动画效果 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.content > * {
+    animation: fadeIn 0.6s ease forwards;
+}
+
+/* 图标引入 */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+.sidebar a::after {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-left: auto;
+    opacity: 0.3;
+}
+
+.sidebar a[href*="index"]::after { content: "\f015"; }
+.sidebar a[href*="add"]::after { content: "\f067"; }
+.sidebar a[href*="display"]::after { content: "\f022"; }
+
+/* 快捷操作按钮样式 */
+.quick-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px; /* 调整顶部外边距 */
+}
+
+.action-btn {
+    display: inline-block;
+    padding: 12px 25px; /* 调整按钮内边距 */
+    margin: 0 15px; /* 调整按钮外边距 */
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    font-size: 1rem; /* 调整字体大小 */
+}
+
+.action-btn:hover {
+    background-color: #2980b9;
+}
+
+/* 系统通知样式 */
+.system-notifications {
+    margin-top: 30px; /* 调整顶部外边距 */
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+.system-notifications h3 {
+    margin-top: 0;
+    font-size: 1.2rem; /* 调整字体大小 */
+}
+
+.system-notifications ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+/* 登录容器样式 */
+.login-container {
+    max-width: 450px;
+    margin: 100px auto;
+    padding: 50px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+/* logo 样式 */
+.logo {
+    margin-bottom: 30px;
+}
+
+/* 输入组样式 */
+.input-group {
+    margin-bottom: 25px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #4a5568;
+    text-align: left;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    font-size: 1rem;
+}
+
+.input-group input:focus {
+    border-color: #4299e1;
+    outline: none;
+}
+
+/* 登录按钮样式 */
+.login-container button {
+    width: 100%;
+    padding: 15px;
+    background-color: #4299e1;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.login-container button:hover {
+    background-color: #3182ce;
+}
+
+/* 登录链接样式 */
+.login-links {
+    margin-top: 20px;
+}
+
+.login-links a {
+    color: #4299e1;
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
+
+.login-links a:hover {
+    color: #3182ce;
+}
+/* 全局配色方案 */
+:root {
+  --primary-color: #6C9BCF;  /* 主色-静谧蓝 */
+  --secondary-color: #A8D5BA; /* 辅助色-灰绿 */
+  --accent-color: #FFB3C1;   /* 强调色-柔粉 */
+  --background: #F5F3F7;     /* 背景色-浅灰紫 */
+  --text-primary: #4A4A4A;   /* 主要文字颜色 */
+  --text-secondary: #777777; /* 辅助文字颜色 */
+  --border-color: #DEDCE1;   /* 边框颜色 */
+  --shadow-color: rgba(108, 155, 207, 0.15); /* 阴影颜色 */
+}
+
+/* 基础样式 */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: var(--background);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 表头样式 */
+.header {
+  background: linear-gradient(135deg, var(--primary-color) 0%, #5B7EBD 100%);
+  color: white;
+  padding: 1.5rem 0;
+  box-shadow: 0 4px 20px var(--shadow-color);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 2rem;
+}
+
+.logout-btn {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/* 主容器 */
+.main-container {
+  display: flex;
+  flex: 1;
+}
+
+/* 侧边栏 */
+.sidebar {
+  width: 260px;
+  background: linear-gradient(195deg, #5B7EBD 0%, var(--primary-color) 100%);
+  padding: 2rem 0;
+  box-shadow: 4px 0 20px var(--shadow-color);
+  position: fixed;
+  height: 100%;
+}
+
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: rgba(255,255,255,0.9);
+  padding: 1rem 2rem;
+  margin: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,0.15);
+  transform: translateX(6px);
+}
+
+/* 内容区域 */
+.content {
+  flex: 1;
+  margin: 2rem;
+  margin-left: 280px;
+  padding: 2rem;
+  background: rgba(255,255,255,0.95);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px var(--shadow-color);
+  backdrop-filter: blur(8px);
+}
+
+/* 按钮系统 */
+.button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.button-primary {
+  background: var(--primary-color);
+  color: white;
+  box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+.button-secondary {
+  background: var(--secondary-color);
+  color: var(--text-primary);
+}
+
+.button-alert {
+  background: var(--accent-color);
+  color: var(--text-primary);
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+/* 表单样式 */
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: rgba(255,255,255,0.9);
+  border-radius: 12px;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.9);
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(108, 155, 207, 0.15);
+}
+
+/* 表格样式 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255,255,255,0.9);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+table th {
+  background: linear-gradient(135deg, var(--primary-color) 0%, #5B7EBD 100%);
+  color: white;
+  padding: 1rem;
+  font-weight: 500;
+}
+
+table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+table tr:nth-child(even) {
+  background: rgba(245, 243, 247, 0.6);
+}
+
+/* 图表容器 */
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.top-charts {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.chart-wrapper-large {
+  flex: 1;
+  background: rgba(255,255,255,0.9);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+/* 分页样式 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.pagination-button {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.pagination-button:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* 动画效果 */
+@keyframes softAppear {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.content > * {
+  animation: softAppear 0.4s ease-out forwards;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+}
+
+.content {
+    margin-left: 200px;
+}
+
+.top-charts {
+    flex-direction: column;
+}
 }

@@ -5,16 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>导入库存</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <header class="header">
         <h1>仓库管理系统</h1>
+        <!-- 添加一些导航辅助信息，如当前用户信息等 -->
+        <div class="user-info">
+            <span>欢迎，<strong>管理员</strong></span>
+            <a href="{{ url_for('logout') }}" class="logout-btn">退出登录</a>
+        </div>
     </header>
     <div class="main-container">
         <div class="sidebar">
             <a href="{{ url_for('index') }}">返回主页</a>
-            <a href="{{ url_for('add_inventory') }}">添加新库存</a>
             <a href="{{ url_for('display_records') }}">显示出入库记录</a>
+            <a href="{{ url_for('add_inventory') }}">添加新库存</a>
             <a href="{{ url_for('remove_inventory') }}">出库</a>
             <a href="{{ url_for('import_inventory') }}">导入库存</a>
             <a href="{{ url_for('export_inventory') }}">导出库存</a>

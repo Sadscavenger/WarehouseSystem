@@ -1,10 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for, send_file, jsonify
+from flask import Flask, render_template, request, redirect, url_for, send_file, jsonify, session
 import pandas as pd
 import os
 from datetime import datetime
 import shutil
 
 app = Flask(__name__)
+# 为了使用 session，需要设置一个密钥，实际应用中应使用更安全的密钥
+app.secret_key = 'your_secret_key'
+
 # 定义库存文件路径
 INVENTORY_FILE = 'inventory.xlsx'
 STATIC_DIR = app.static_folder
@@ -18,8 +21,42 @@ if not os.path.exists(INVENTORY_FILE):
 # 将 enumerate 函数注入到 Jinja2 环境中
 app.jinja_env.globals.update(enumerate=enumerate)
 
-# 每页显示的记录数
-PER_PAGE = 10
+# 管理员用户名和密码（示例，实际应用中应使用更安全的方式存储）
+ADMIN_USERNAME = 'admin'
+ADMIN_PASSWORD = '12345678'
+
+# 登录页面路由
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+            # 登录成功，将用户信息存入 session
+            session['username'] = username
+            # 登录成功，重定向到主页
+            return redirect(url_for('index'))
+        else:
+            # 登录失败，返回登录页面并显示错误信息
+            return render_template('login.html', error='用户名或密码错误')
+    return render_template('login.html')
+
+# 注销登录的路由
+@app.route('/logout')
+def logout():
+    # 从 session 中移除用户信息
+    session.pop('username', None)
+    return redirect(url_for('login'))
+
+# 定义一个 before_request 函数，用于在每个请求之前检查用户是否登录
+@app.before_request
+def before_request():
+    # 对于登录页面和静态文件的请求，不进行登录检查
+    if request.endpoint in ['login', 'static']:
+        return
+    # 如果用户未登录，重定向到登录页面
+    if 'username' not in session:
+        return redirect(url_for('login'))
 
 # 首页路由，显示主页面
 @app.route('/')
@@ -31,8 +68,15 @@ def index():
     inbound_inventory = df[df['出入库类型'] == '入库']['库存数量'].sum()
     # 统计出库数量
     outbound_inventory = df[df['出入库类型'] == '出库']['库存数量'].sum()
+
+    # 计算每个款式的剩余数量
+    style_remaining = df.groupby('款号')['库存数量'].sum()
+
+    # 将 Series 转换为字典，方便在模板中使用
+    style_remaining_dict = style_remaining.to_dict()
+
     return render_template('index.html', total_inventory=total_inventory, inbound_inventory=inbound_inventory,
-                           outbound_inventory=outbound_inventory)
+                           outbound_inventory=outbound_inventory, style_remaining=style_remaining_dict)
 
 # 添加新库存的路由
 @app.route('/add_inventory', methods=['GET', 'POST'])
@@ -144,16 +188,35 @@ def download_inventory():
 # 显示剩余库存的路由，包含库存预警功能
 @app.route('/remaining_inventory')
 def remaining_inventory():
+    keyword = request.args.get('keyword')  # 获取搜索关键词
+
     df = pd.read_excel(INVENTORY_FILE)
+    if keyword:
+        # 模糊搜索逻辑，不区分大小写
+        keyword = keyword.lower()
+        df = df[
+            (df['款号'].astype(str).str.lower().str.contains(keyword)) |
+            (df['颜色'].astype(str).str.lower().str.contains(keyword)) |
+            (df['尺码'].astype(str).str.lower().str.contains(keyword))
+        ]
+
     # 按款号、颜色和尺码分组，分别统计入库和出库数量
     grouped = df.groupby(['款号', '颜色', '尺码', '出入库类型'])['库存数量'].sum().unstack(fill_value=0)
     grouped['剩余库存'] = grouped.get('入库', 0) - grouped.get('出库', 0)
     # 透视表，将尺码作为列
     pivot_df = grouped.reset_index().pivot_table(index=['款号', '颜色'], columns='尺码', values='剩余库存', fill_value=0).reset_index()
-    # 标记库存小于 50 的记录
-    pivot_df['预警'] = pivot_df.drop(['款号', '颜色'], axis=1).sum(axis=1) < 50
-    return render_template('remaining_inventory.html', inventory=pivot_df.to_dict(orient='records'))
+    
+    # 确保包含所有尺码列
+    size_columns = ['S', 'M', 'L', 'XL', 'XXL']
+    for size in size_columns:
+        if size not in pivot_df.columns:
+            pivot_df[size] = 0
 
+    # 按每个尺码的数量来预警，单尺码少于 20 件预警
+    for size in size_columns:
+        pivot_df[f'{size}_预警'] = pivot_df[size] < 20
+
+    return render_template('remaining_inventory.html', inventory=pivot_df.to_dict(orient='records'), keyword=keyword)
 # 修改库存信息的路由
 @app.route('/edit_inventory/<int:index>', methods=['GET', 'POST'])
 def edit_inventory(index):

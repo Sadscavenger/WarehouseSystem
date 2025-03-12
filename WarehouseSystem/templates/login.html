@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>精致登录页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .login-wrap {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* 左侧登录区域 */
+        .login-form {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 5rem;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            width: 150px;
+            padding: 4px;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: #2c3e50;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            height: 45px;
+            padding: 0 1.2rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #3949ab;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+
+        .remember-me input {
+            margin-right: 0.8rem;
+        }
+
+        .login-btn {
+            width: 180px;
+            height: 45px;
+            background: #3949ab;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .login-btn:hover {
+            background: #283593;
+        }
+
+        /* 右侧背景区域 */
+        .login-bg {
+            flex: 1;
+            position: relative;
+            background: linear-gradient(135deg, #3f51b5, #1a237e);
+        }
+
+        .login-bg::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('static/image/fm.png') no-repeat center;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-wrap">
+        <form method="post">
+            <div class="login-form">
+                <img src="static/image/logo1.png" alt="logo" class="logo">
+                <h1>Hello,<br>Welcome Administrator</h1>
+                <div class="input-group">
+                    <input type="text" id="username" name="username" required placeholder="请输入用户名">
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" name="password" required placeholder="请输入密码">
+                </div>
+                {% if error %}
+                <p style="color: red;">{{ error }}</p>
+                {% endif %}
+                <div class="remember-me">
+                    <input type="checkbox" id="autoLogin">
+                    <label for="autoLogin">下次自动登录</label>
+                </div>
+                <button type="submit" class="login-btn">登录</button>
+            </div>
+        </form>
+        <div class="login-bg"></div>
+
+    </div>
+</body>
+</html>

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>出入库记录</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <!-- 引入 SweetAlert2 库 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
@@ -110,29 +111,29 @@
             Swal.fire({
                 title: '批量修改记录',
                 html: `
-                    <form id="batchEditForm">
-                        <div class="input-group">
-                            <label for="newStyleNumber">款号:</label>
-                            <input type="text" id="newStyleNumber" name="newStyleNumber">
-                            <small>留空则不修改</small>
-                        </div>
-                        <div class="input-group">
-                            <label for="newColor">颜色:</label>
-                            <input type="text" id="newColor" name="newColor">
-                            <small>留空则不修改</small>
-                        </div>
-                        <div class="input-group">
-                            <label for="newSize">尺码:</label>
-                            <input type="text" id="newSize" name="newSize">
-                            <small>留空则不修改</small>
-                        </div>
-                        <div class="input-group">
-                            <label for="newQuantity">数量:</label>
-                            <input type="number" id="newQuantity" name="newQuantity">
-                            <small>留空则不修改</small>
-                        </div>
-                        <input type="hidden" id="selectedIndices" name="selectedIndices" value="${selectedIndices.join(',')}">
-                    </form>
+                <form id="batchEditForm">
+                <div class="input-group">
+                <label for="newStyleNumber">款号:</label>
+                <input type="text" id="newStyleNumber" name="newStyleNumber">
+                <small>留空则不修改</small>
+                </div>
+                <div class="input-group">
+                <label for="newColor">颜色:</label>
+                <input type="text" id="newColor" name="newColor">
+                <small>留空则不修改</small>
+                </div>
+                <div class="input-group">
+                <label for="newSize">尺码:</label>
+                <input type="text" id="newSize" name="newSize">
+                <small>留空则不修改</small>
+                </div>
+                <div class="input-group">
+                <label for="newQuantity">数量:</label>
+                <input type="number" id="newQuantity" name="newQuantity">
+                <small>留空则不修改</small>
+                </div>
+                <input type="hidden" id="selectedIndices" name="selectedIndices" value="${selectedIndices.join(',')}">
+                </form>
                 `,
                 showCancelButton: true,
                 confirmButtonText: '保存修改',
@@ -174,23 +175,36 @@
 <body>
     <header class="header">
         <h1>仓库管理系统</h1>
+        <!-- 添加一些导航辅助信息，如当前用户信息等 -->
+        <div class="user-info">
+            <span>欢迎，<strong>管理员</strong></span>
+            <a href="{{ url_for('logout') }}" class="logout-btn">退出登录</a>
+        </div>
     </header>
     <div class="main-container">
-            <div class="sidebar">
-                <a href="{{ url_for('index') }}">返回主页</a>
-                <a href="{{ url_for('add_inventory') }}">添加新库存</a>
-                <a href="{{ url_for('display_records') }}">显示出入库记录</a>
-                <a href="{{ url_for('remove_inventory') }}">出库</a>
-                <a href="{{ url_for('import_inventory') }}">导入库存</a>
-                <a href="{{ url_for('export_inventory') }}">导出库存</a>
-                <a href="{{ url_for('remaining_inventory') }}">剩余库存</a>
+        <div class="sidebar">
+            <a href="{{ url_for('index') }}">返回主页</a>
+            <a href="{{ url_for('display_records') }}">显示出入库记录</a>
+            <a href="{{ url_for('add_inventory') }}">添加新库存</a>
+            <a href="{{ url_for('remove_inventory') }}">出库</a>
+            <a href="{{ url_for('import_inventory') }}">导入库存</a>
+            <a href="{{ url_for('export_inventory') }}">导出库存</a>
+            <a href="{{ url_for('remaining_inventory') }}">剩余库存</a>
+        </div>
+        <div class="content">
+            <h1>出入库记录</h1>
+
+            <div class="search-container">
+
+                <div class="remaining-inventory">
+                    <div class="search-container">
+                        <input type="text" id="searchInput" placeholder="输入款号模糊搜索" class="search-input">
+                        <button onclick="searchRecords()" class="search-button">搜索</button>
+                    </div>
+                </div>
+
             </div>
-            <div class="content">
-                <h1>出入库记录</h1>
-                <div class="search-container">
-                <input type="text" id="searchInput" placeholder="输入款号模糊搜索" class="search-input">
-                <button onclick="searchRecords()" class="search-button">搜索</button>
-            </div>
+
             <div class="batch-button-container">
                 <input type="checkbox" id="selectAllCheckbox" onclick="selectAll(this)"> 全选
                 <button type="button" onclick="confirmBatchDelete()" class="action-button delete-button">批量删除</button>
@@ -201,13 +215,13 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th><a href="{{ url_for('display_records', sort='款号', keyword=keyword, page=1) }}">款号</a></th>
-                            <th><a href="{{ url_for('display_records', sort='颜色', keyword=keyword, page=1) }}">颜色</a></th>
-                            <th><a href="{{ url_for('display_records', sort='尺码', keyword=keyword, page=1) }}">尺码</a></th>
-                            <th><a href="{{ url_for('display_records', sort='入库时间', keyword=keyword, page=1) }}">入库时间</a></th>
-                            <th><a href="{{ url_for('display_records', sort='库存数量', keyword=keyword, page=1) }}">库存数量</a></th>
-                            <th><a href="{{ url_for('display_records', sort='出入库类型', keyword=keyword, page=1) }}">出入库类型</a></th>
-                            <th><a href="{{ url_for('display_records', sort='操作时间', keyword=keyword, page=1) }}">操作时间</a></th>
+                            <th>款号</th>
+                            <th>颜色</th>
+                            <th>尺码</th>
+                            <th>入库时间</th>
+                            <th>库存数量</th>
+                            <th>出入库类型</th>
+                            <th>操作时间</th>
                             <th>操作</th>
                         </tr>
                     </thead>
@@ -219,14 +233,21 @@
                             <td>{{ record['颜色'] }}</td>
                             <td>{{ record['尺码'] }}</td>
                             <td>{{ record['入库时间'] }}</td>
-                            <td>{{ record['库存数量'] }}</td>
+                            <!-- 判断出入库类型，出库显示负数 -->
+                            <td>
+                                {% if record['出入库类型'] == '出库' %}
+                                -{{ record['库存数量'] }}
+                                {% else %}
+                                {{ record['库存数量'] }}
+                                {% endif %}
+                            </td>
                             <td>{{ record['出入库类型'] }}</td>
                             <td>{{ record['操作时间'] }}</td>
                             <td>
                                 <a href="{{ url_for('edit_inventory', index=loop.index0 + (page - 1) * 10) }}"
-                                   class="action-button edit-button">修改</a>
+                                class="action-button edit-button">修改</a>
                                 <a href="#" onclick="confirmSingleDelete({{ loop.index0 + (page - 1) * 10 }}); return false;"
-                                   class="action-button delete-button">删除</a>
+                                class="action-button delete-button">删除</a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -244,6 +265,8 @@
                     <option value="20" {% if per_page == 20 %}selected{% endif %}>20 条/页</option>
                     <option value="50" {% if per_page == 50 %}selected{% endif %}>50 条/页</option>
                     <option value="100" {% if per_page == 100 %}selected{% endif %}>100 条/页</option>
+                    <option value="500" {% if per_page == 500 %}selected{% endif %}>500 条/页</option>
+                    <option value="1000" {% if per_page == 100 %}selected{% endif %}>1000 条/页</option>
                 </select>
                 {% if page < total_pages %}
                 <a href="{{ url_for('display_records', keyword=keyword, sort=sort, page=page + 1, per_page=per_page) }}" class="pagination-button">下一页</a>
